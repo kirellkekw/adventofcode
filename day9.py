@@ -49,6 +49,8 @@ def find_next_num(sequence: list, roots: list, tree_level: int = 0):
     return answer
 
 
+print(find_next_num(ex_input2, []))
+
 total = 0
 for line in lines:
     q = find_next_num(line, [])
@@ -56,3 +58,46 @@ for line in lines:
     total += q
 
 print(total)  # answer of part 1
+
+# Part 2
+# we got the next number, now we need to find the previous number
+
+
+def find_prev_num(sequence: list, roots: list, tree_level: int = 0):
+    if tree_level == 0:
+        roots += [sequence]
+
+    next_level = [sequence[index+1]-sequence[index]
+                  for index in range(len(sequence)-1)]
+
+    if tree_level == 0:
+        for num in sequence:
+            print(f"{num} ", end="")
+        print("")
+
+    print((1+tree_level)*" ", end="")
+    for num in next_level:
+        print(f"{num}", end=" ")
+    print(end="\n")
+
+    for num in next_level:
+        if num != 0:
+            roots += [next_level]
+            return find_prev_num(next_level, roots, tree_level+1)
+
+    answer = 0
+    new_first_number = 0
+    for index in range(len(roots)-1, -1, -1):
+        new_first_number = roots[index][0]-new_first_number
+
+    answer = new_first_number
+    return answer
+
+
+total = 0
+for line in lines:
+    q = find_prev_num(line, [])
+    print(q)
+    total += q
+
+print(total)  # answer of part 2
