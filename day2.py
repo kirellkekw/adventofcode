@@ -1,4 +1,4 @@
-with open('day2\day2input.txt') as f:
+with open('inputs/day2input.txt') as f:
     content = f.readlines()
 
 red_limit = 12
@@ -7,17 +7,18 @@ blue_limit = 14
 
 
 class Day:
-    def __init__(self, daystring:str):
+    def __init__(self, daystring: str):
         daystring = daystring.split(";")
         daystring[0] = daystring[0].split(":")
-        self.day:int = int(daystring[0][0][5:])
+        self.day: int = int(daystring[0][0][5:])
         self.sets = [daystring[0][1]]
         self.sets += daystring[1:]
         self.maxred = 0
         self.maxgreen = 0
         self.maxblue = 0
 
-def find_maxrgb(day:Day):
+
+def find_maxrgb(day: Day):
     for set in day.sets:
         set = set.split(",")
         for item in set:
@@ -35,7 +36,8 @@ def find_maxrgb(day:Day):
                 print("**" + color + "** is not a valid color")
                 return False
 
-def check_item(color:str, amount:int):
+
+def check_item(color: str, amount: int):
     if color == "red":
         return amount <= red_limit
     elif color == "green":
@@ -45,8 +47,9 @@ def check_item(color:str, amount:int):
     else:
         print("**" + color + "** is not a valid color")
         return False
-    
-def check_set(set:str):
+
+
+def check_set(set: str):
     set = set.split(",")
     for item in set:
         item = item.split(" ")
@@ -59,7 +62,8 @@ def check_set(set:str):
             return False
     return True
 
-def check_day(day:Day):
+
+def check_day(day: Day):
     for set in day.sets:
         is_valid = check_set(set)
         if not is_valid:
@@ -75,23 +79,22 @@ for line in content:
     print(f"sets: {day.sets}")
 
     if check_day(day):
-       print(f"day {day.day} is valid\n")
-       continue 
+        print(f"day {day.day} is valid\n")
+        continue
     else:
         sum += day.day
         print(f"day {day.day} is invalid\n")
 print(5050-sum)
 
 
-
 # part 2
 sum = 0
 for line in content:
     day = Day(line)
-    print(f"checking day {day.day}")
-    
+    # print(f"checking day {day.day}")
+
     find_maxrgb(day)
-    print(f"r: {day.maxred}, g: {day.maxgreen}, b: {day.maxblue}")
+    # print(f"r: {day.maxred}, g: {day.maxgreen}, b: {day.maxblue}")
     sum += day.maxred * day.maxgreen * day.maxblue
 
 print(sum)

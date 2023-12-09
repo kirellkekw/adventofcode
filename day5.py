@@ -1,15 +1,16 @@
-with open("day5input.txt") as f:
+with open("inputs/day5input.txt") as f:
     content = f.read()
 
 raw_data = content.split("\n\n")
 
 # Part 1
 
-seeds = raw_data[0][7:].split(" ") # 
+seeds = raw_data[0][7:].split(" ")
 for i in seeds:
     seeds[seeds.index(i)] = int(i)
 
-def parse_this(data:str):
+
+def parse_this(data: str):
     half_parsed = data.split("\n")[1:]
     parsed = []
     for line in half_parsed:
@@ -19,6 +20,7 @@ def parse_this(data:str):
         parsed_to_num.append([int(element) for element in line])
 
     return parsed_to_num
+
 
 seed_to_soil = parse_this(raw_data[1])
 seed_to_soil.sort()
@@ -42,14 +44,16 @@ temperature_to_humidity.sort()
 humidity_to_location = parse_this(raw_data[7])
 humidity_to_location.sort()
 
-def find_match(input:int, table:list[list[int]]):
+
+def find_match(input: int, table: list[list[int]]):
     for line in table:
-        if input in range(line[1], line[1]+ line[2]):
+        if input in range(line[1], line[1] + line[2]):
             return line[0] + (input - line[1])
-    
+
     return input
 
-def full_rotation(seed:int):
+
+def full_rotation(seed: int):
     soil = find_match(seed, seed_to_soil)
     fertilizer = find_match(soil, soil_to_fertilizer)
     water = find_match(fertilizer, fertilizer_to_water)
@@ -60,7 +64,8 @@ def full_rotation(seed:int):
 
     return location
 
-def reverse_full_rotation(location:int):
+
+def reverse_full_rotation(location: int):
     humidity = find_match(location, humidity_to_location)
     temperature = find_match(humidity, temperature_to_humidity)
     light = find_match(temperature, light_to_temperature)
@@ -71,6 +76,7 @@ def reverse_full_rotation(location:int):
 
     return seed
 
+
 lowest = None
 for seed in seeds:
     q = full_rotation(seed)
@@ -79,17 +85,18 @@ for seed in seeds:
     elif q < lowest:
         lowest = q
 
-print(f"lowest: {lowest}") # part 1
+print(f"lowest: {lowest}")  # part 1
 
 
 min = None
 for i in range(0, len(seeds), 2):
     for j in range(seeds[i], seeds[i] + seeds[i+1]):
-        print(f"range {seeds[i]} to {seeds[i] + seeds[i+1]}, current = {j}, min: {min}")
+        print(
+            f"range {seeds[i]} to {seeds[i] + seeds[i+1]}, current = {j}, min: {min}")
         q = full_rotation(j)
         if min == None:
             min = q
         elif q < min:
             min = q
 
-print(f"min: {min}") # part 2
+print(f"min: {min}")  # part 2

@@ -1,4 +1,4 @@
-with open("day6input.txt") as f:
+with open("inputs/day6input.txt") as f:
     content = f.readlines()
 
 
@@ -12,14 +12,14 @@ while flag:
             content[index] = content[index].replace("  ", " ")
 
 for index in range(len(content)):
-    content[index] = content[index].replace("\n","").split(" ")
+    content[index] = content[index].replace("\n", "").split(" ")
 
 times = content[0][1:]
 
 distances = content[1][1:]
 
 
-def test_track(time:str, distance:str):
+def test_track(time: str, distance: str):
     time = int(time)
     distance = int(distance)
 
@@ -31,14 +31,17 @@ def test_track(time:str, distance:str):
 
     return winning_attempts
 
+
 sum = 1
 for i in range(len(times)):
     sum *= test_track(times[i], distances[i])
 
-print(sum) # part 1
+print(sum)  # part 1
 
 # Part 2
-def test_track2(time:str, distance:str):
+
+
+def test_track2(time: str, distance: str):
     time = int(time)
     distance = int(distance)
 
@@ -49,7 +52,8 @@ def test_track2(time:str, distance:str):
         if i * (time-i) > distance:
             # no need to check for the rest of the numbers
             print(f"found time and distance: {i}, {time-i}")
-            print(time-2*i+1) # +1 since we are counting both start and end
+            print(time-2*i+1)  # +1 since we are counting both start and end
             break
 
-test_track2(60808676,601116315591300) # part 2
+
+test_track2(60808676, 601116315591300)  # part 2
